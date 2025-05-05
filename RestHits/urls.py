@@ -1,5 +1,5 @@
 """
-URL configuration for hits project.
+URL configuration for RestHits project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -15,15 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-# Third-party Imports
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
+from rest_framework.routers import SimpleRouter
 
-from .views import HitListView, HitCreateView, HitDetailView
+from RestHits.views import HitViewSet
+
+router = SimpleRouter(trailing_slash="")
+router.register(r"api/v1/hits", HitViewSet, basename="hits")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("hits", HitListView.as_view()),
-    path("hits/<slug:title_url>", HitDetailView.as_view()),
-    path("hits", HitCreateView.as_view()),
+    path("", include(router.urls)),
 ]

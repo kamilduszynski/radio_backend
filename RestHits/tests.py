@@ -1,4 +1,3 @@
-# Third-party Imports
 from django.test import TestCase
 
 from .models import Hit, Artist
