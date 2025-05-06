@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 
 class Artist(models.Model):
@@ -13,6 +14,12 @@ class Artist(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def clean(self):
+        if not self.first_name:
+            raise ValidationError("First name cannot be empty")
+        if not self.last_name:
+            raise ValidationError("Last name cannot be empty")
 
 
 class Hit(models.Model):
@@ -28,6 +35,13 @@ class Hit(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if not self.title:
+            raise ValidationError("Title cannot be empty")
+
+        if not self.title_url:
+            raise ValidationError("Title URL cannot be empty")
 
     def save(self, *args, **kwargs):
         if not self.title_url:
