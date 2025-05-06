@@ -119,7 +119,6 @@ def test_delete_hit():
     response = client.delete(f"/api/v1/hits/{hit.title_url}")
     assert response.status_code == 204
 
-    # Upewniamy się, że został usunięty
     get_response = client.get(f"/api/v1/hits/{hit.title_url}")
     assert get_response.status_code == 404
 
