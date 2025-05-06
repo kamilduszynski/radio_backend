@@ -139,3 +139,6 @@ In this project pre-commit is used to automatically run tools like black, pycln,
 
     **Isort**: Automatically sorts imports with Isort, using settings from .isort.cfg.
 
+4. Run manually (optional):
+
+    ```pre-commit run --all-files```
