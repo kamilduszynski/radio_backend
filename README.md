@@ -50,7 +50,7 @@ To run tests inside the Docker container, you can use the following command:
 This will execute all the tests inside the Docker container. To run a specific test file or function:
 
     docker compose exec web pytest RestHits/tests/test_models.py
-    
+
     docker compose exec web pytest RestHits/tests/test_models.py::test_hit_creation
 
 ### Run with coverage:
@@ -112,7 +112,7 @@ Show coverage report in terminal:
 
     Replace everlong with the title_url of the hit you want to delete.
 
-## 3. Development Tools
+## Development Tools
 
 ### Pre-commit Hooks
 
