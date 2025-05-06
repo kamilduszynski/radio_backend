@@ -8,6 +8,18 @@ from RestHits.models import Hit, Artist
 
 
 @pytest.mark.django_db
+def test_hit_creation():
+    artist = Artist.objects.create(first_name="John", last_name="Lennon")
+    hit = Hit.objects.create(
+        title="Imagine", artist=artist, title_url="imagine"
+    )
+    assert hit.id is not None
+    assert hit.title == "Imagine"
+    assert hit.artist == artist
+    assert hit.title_url == slugify("Imagine")
+
+
+@pytest.mark.django_db
 def test_hit_str():
     artist = Artist.objects.create(first_name="John", last_name="Lennon")
     hit = Hit.objects.create(
@@ -61,6 +73,15 @@ def test_hit_creation_with_invalid_title():
     artist = Artist.objects.create(first_name="John", last_name="Doe")
 
     hit = Hit(title="", artist=artist)
+    with pytest.raises(ValidationError):
+        hit.full_clean()
+
+
+@pytest.mark.django_db
+def test_hit_creation_with_invalid_title_url():
+    artist = Artist.objects.create(first_name="John", last_name="Doe")
+
+    hit = Hit(title="Wild Thing", title_url="", artist=artist)
     with pytest.raises(ValidationError):
         hit.full_clean()
 

@@ -4,12 +4,12 @@ This is a Django-based API that allows you to manage a collection of music hits,
 
 ## Features
 
-- List the latest hits sorted by creation date.
-- Create new hits and associate them with artists.
-- Update existing hits.
-- Delete hits from the database.
-- Validate and generate `title_url` automatically.
-- API endpoint for fetching hit details by `title_url`.
+- List the latest hits sorted by creation date
+- Create new hits and associate them with artists
+- Update existing hits
+- Delete hits from the database
+- Validate and generate `title_url` automatically
+- API endpoint for fetching hit details by `title_url`
 
 ## Requirements
 
@@ -29,28 +29,37 @@ This is a Django-based API that allows you to manage a collection of music hits,
 
     ```docker compose up```
 
-    This will start both the Django development server and the PostgreSQL database in Docker. You can access the API at http://localhost:8000/.
+    This will start both the Django development server and the PostgreSQL database in Docker. You can access the API at http://localhost:8000/
 
 4. Create initial data (optional):
 
     ```docker compose exec web python manage.py create_initial_data```
 
-5. Running the tests in Docker
-    To run tests inside the Docker container, you can use the following command:
+5. Stopping the containers - if you want to shut down application
 
-    ```docker compose exec web pytest```
-
-    This will execute all the tests inside the Docker container. To run a specific test file or function:
-
-    ```
-        docker compose exec web pytest RestHits/tests/test_models.py
-        docker compose exec web pytest RestHits/tests/test_models.py::test_hit_creation
-    ```
-
-6. Stopping the containers
     To stop the Docker containers, use the following command:
 
     ```docker compose down```
+
+## Running the tests in Docker
+
+To run tests inside the Docker container, you can use the following command:
+
+    docker compose exec web pytest
+
+This will execute all the tests inside the Docker container. To run a specific test file or function:
+
+    docker compose exec web pytest RestHits/tests/test_models.py
+    
+    docker compose exec web pytest RestHits/tests/test_models.py::test_hit_creation
+
+### Run with coverage:
+
+    docker compose exec web coverage run -m pytest
+
+Show coverage report in terminal:
+ 
+     docker compose exec web coverage report
 
 ## API Endpoints - cURL Requests
 
@@ -61,16 +70,17 @@ This is a Django-based API that allows you to manage a collection of music hits,
     ```bash
     curl -X GET http://localhost:8000/api/v1/hits
 
-2. GET /api/v1/hits/{title_url} - Get a specific hit
+2. **GET /api/v1/hits/{title_url}** - Get a specific hit
 
     This endpoint retrieves the details of a hit by its `title_url`.
 
     ```bash
     curl -X GET http://localhost:8000/api/v1/hits/everlong
+    ```
 
     Replace everlong with the title_url of the hit you want to get details of.
 
-3. POST /api/v1/hits - Create a new hit
+3. **POST /api/v1/hits** - Create a new hit
 
     This endpoint allows you to create a new hit. You must include the `artist_id` and `title`.
 
@@ -78,8 +88,9 @@ This is a Django-based API that allows you to manage a collection of music hits,
     curl -X POST http://localhost:8000/api/v1/hits \
      -H "Content-Type: application/json" \
      -d '{"artist_id": 1, "title": "Everlong"}'
+    ```
 
-4. PUT /api/v1/hits/{title_url} - Update a hit
+4. **PUT /api/v1/hits/{title_url}** - Update a hit
 
     This endpoint updates an existing hit. You can change the title, artist_id, and title_url.
 
@@ -87,27 +98,19 @@ This is a Django-based API that allows you to manage a collection of music hits,
     curl -X PUT http://localhost:8000/api/v1/hits/everlong \
      -H "Content-Type: application/json" \
      -d '{"title": "Updated Hit", "artist_id": 2}'
+    ```
 
-     Replace everlong with the title_url of the hit you want to update.
+    Replace everlong with the title_url of the hit you want to update.
 
-5. DELETE /api/v1/hits/{title_url} - Delete a hit
+5. **DELETE /api/v1/hits/{title_url}** - Delete a hit
 
     This endpoint deletes a specific hit based on the title_url.
 
     ```bash
     curl -X DELETE http://localhost:8000/api/v1/hits/everlong
+    ```
 
     Replace everlong with the title_url of the hit you want to delete.
-
-
-### Explanation:
-
-- **GET Request**: Used to retrieve data. In the example, we list all hits or fetch a specific hit by its `title_url`.
-- **POST Request**: Used to create a new resource (in this case, a hit). The body of the request should include the necessary data in JSON format.
-- **PUT Request**: Used to update an existing resource. You specify the resource via `title_url` in the URL path.
-- **DELETE Request**: Used to delete a specific resource identified by `title_url`.
-
-This format provides a simple way to interact with the API using `curl` for testing or integration purposes.
 
 ## 3. Development Tools
 
@@ -117,9 +120,9 @@ In this project pre-commit is used to automatically run tools like black, pycln,
 
 ### Setting up pre-commit hooks
 
-1. Install pre-commit:
+1. Install dependencies:
 
-    ```pip install pre-commit```
+    ```pip install -r requirements-dev.txt```
 
 
 2. Install the pre-commit hooks:
@@ -130,9 +133,9 @@ In this project pre-commit is used to automatically run tools like black, pycln,
 
 3. The following hooks will run automatically on each commit:
 
-    `Black`: Automatically formats code using Black with settings defined in pyproject.toml.
+    **Black**: Automatically formats code using Black with settings defined in pyproject.toml.
 
-    `PyCln`: Cleans up unused imports with PyCln, using settings in pyproject.toml.
+    **PyCln**: Cleans up unused imports with PyCln, using settings in pyproject.toml.
 
-    `Isort`: Automatically sorts imports with Isort, using settings from .isort.cfg.
+    **Isort**: Automatically sorts imports with Isort, using settings from .isort.cfg.
 
