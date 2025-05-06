@@ -5,11 +5,10 @@ This is a Django-based API that allows you to manage a collection of music hits,
 ## Features
 
 - List the latest hits sorted by creation date
+- Fetching hit details by `title_url`
 - Create new hits and associate them with artists
 - Update existing hits
 - Delete hits from the database
-- Validate and generate `title_url` automatically
-- API endpoint for fetching hit details by `title_url`
 
 ## Requirements
 
